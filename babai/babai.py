@@ -35,14 +35,14 @@ class BabaiAlgorithm():
     def compute_distance(self) -> float:
         """
         If the closest vector `v` has been computed, this
-        function returns the distance between the vector
+        function returns the Euclidean distance between the vector
         `v` and the vector `w`.
         """
         if self.v is None:
             raise ClosestVectorHasNotBeenComputed
         return np.linalg.norm(self.w - self.v)
 
-    def is_a_good_base() -> bool:
+    def is_a_good_base(self) -> bool:
         """
         Returns `True` if the base `B` can be
         considered a good base. Returns `False` otherwise.
