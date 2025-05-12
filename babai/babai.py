@@ -14,22 +14,22 @@ class BabaiAlgorithm():
     It also allows to compute the distance between
     the two vectors and decide if it's a good basis.
     """
-    def __init__(self, base: np.array, w: np.array):
-        assert base.shape[0] == w.shape[0]
-        self.base = base
+    def __init__(self, basis: np.array, w: np.array):
+        assert basis.shape[0] == w.shape[0]
+        self.basis = basis
         self.w = w
         self.v: np.array | None = None
 
     def compute_closest_vector(self) -> None:
         """
         Implementation of the babai algorithm. This function
-        uses the base `B` and the arbitrary vector `w`. Each
+        uses the basis `B` and the arbitrary vector `w`. Each
         column of `B` must represent a vector of the basis.
         It stores the vector `v` close to `w`.
         """
-        t = np.linalg.solve(self.base, self.w)
+        t = np.linalg.solve(self.basis, self.w)
         a = np.round(t)
-        v = self.base @ a
+        v = self.basis @ a
         self.v = v
 
     def compute_distance(self) -> float:
@@ -45,19 +45,19 @@ class BabaiAlgorithm():
     def compute_delta_b(self) -> float:
         """
         Computes the value of Delta(B) that is used
-        to check if B is a good base.
+        to check if B is a good basis.
         """
-        base_prod = 1
-        for b in self.base.T:
-            base_prod *= np.linalg.norm(b)
-        denom = np.sqrt(np.linalg.det(self.base.T @ self.base))
-        delta_b = base_prod / denom
+        basis_prod = 1
+        for b in self.basis.T:
+            basis_prod *= np.linalg.norm(b)
+        denom = np.sqrt(np.linalg.det(self.basis.T @ self.basis))
+        delta_b = basis_prod / denom
         return delta_b
 
-    def is_a_good_base(self, epsilon: float = 0.01) -> bool:
+    def is_a_good_basis(self, epsilon: float = 0.01) -> bool:
         """
-        Returns `True` if the base `B` can be
-        considered a good base. Returns `False` otherwise.
+        Returns `True` if the basis `B` can be
+        considered a good basis. Returns `False` otherwise.
         """
         delta_b = self.compute_delta_b()
         return bool(delta_b - 1 < epsilon)
