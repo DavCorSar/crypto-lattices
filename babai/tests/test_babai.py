@@ -76,5 +76,16 @@ def test_babai_distance_2():
     assert babai_alg.compute_distance() == 0
 
 
+def test_babai_good_base():
+    """
+    Checks that if the base `B` is orthogonal,
+    the value of Delta(b) = 1.
+    """
+    base = np.array([[1, 0], [0, 1]]).T
+    w = np.array([2.0, 3.0])
+    babai_alg = BabaiAlgorithm(base, w)
+    assert babai_alg.compute_delta_b() == 1
+
+
 if __name__ == "__main__":
     pytest.main()
