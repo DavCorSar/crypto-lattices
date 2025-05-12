@@ -42,8 +42,22 @@ class BabaiAlgorithm():
             raise ClosestVectorHasNotBeenComputed
         return np.linalg.norm(self.w - self.v)
 
-    def is_a_good_base(self) -> bool:
+    def compute_delta_b(self) -> float:
+        """
+        Computes the value of Delta(B) that is used
+        to check if B is a good base.
+        """
+        base_prod = 1
+        for b in self.base.T:
+            base_prod *= np.linalg.norm(b)
+        denom = np.sqrt(np.linalg.det(self.base.T @ self.base))
+        delta_b = base_prod / denom
+        return delta_b
+
+    def is_a_good_base(self, epsilon: float = 0.01) -> bool:
         """
         Returns `True` if the base `B` can be
         considered a good base. Returns `False` otherwise.
         """
+        delta_b = self.compute_delta_b()
+        return bool(delta_b - 1 < epsilon)
