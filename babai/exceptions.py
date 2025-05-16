@@ -1,8 +1,14 @@
+"""
+This module contains the possible exceptions
+that could be raised during the executions.
+"""
+
+
 class ClosestVectorHasNotBeenComputed(Exception):
     """
     This error can be thrown when a function that needs the
     closest vector `v` of the Babai algorithm is called and
-    such vector has not been computed 
+    such vector has not been computed
     """
 
     def __init__(self):
