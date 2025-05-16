@@ -8,12 +8,13 @@ import numpy as np
 from babai.exceptions import ClosestVectorHasNotBeenComputed
 
 
-class BabaiAlgorithm():
+class BabaiAlgorithm:
     """
     This class implements the Babai algorithm.
     It also allows to compute the distance between
     the two vectors and decide if it's a good basis.
     """
+
     def __init__(self, basis: np.ndarray, w: np.array):
         assert basis.shape[0] == w.shape[0]
         self.basis = basis
