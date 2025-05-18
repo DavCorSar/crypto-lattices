@@ -87,5 +87,27 @@ def test_babai_good_basis():
     assert babai_alg.compute_delta_b() == 1
 
 
+def test_babai_with_complex_basis():
+    """
+    Performs an execution using a complex basis.
+    """
+    basis_bad = np.array([[1, 0, -213], [0, 1, 1213], [0, 0, 234]]).T
+    basis_good = np.array([[57, 1, 0], [4135, 0, 1213], [0, 54612, 234]]).T
+    w = np.array([2315, 0, 35])
+
+    good_alg = BabaiAlgorithm(basis_good, w)
+    good_alg.compute_closest_vector()
+    good_alg.compute_distance()
+    delta_b_good = good_alg.compute_delta_b()
+
+    bad_alg = BabaiAlgorithm(basis_bad, w)
+    bad_alg.compute_closest_vector()
+    bad_alg.compute_distance()
+    delta_b_bad = bad_alg.compute_delta_b()
+
+    assert delta_b_bad > 100
+    assert delta_b_good < 5
+
+
 if __name__ == "__main__":
     pytest.main()

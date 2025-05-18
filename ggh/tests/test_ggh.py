@@ -81,7 +81,6 @@ def test_ggh_cipher_decipher_5():
     basis = np.array([[2, -2, -1, -1], [-3, 1, 3, -4], [1, 0, 2, 3], [-4, 4, 1, -2]]).T
     public_key = np.array([[1, 0, 0, 44], [0, 1, 0, 18], [0, 0, 1, 4], [0, 0, 0, 49]]).T
     ggh_algo = GGHAlgorithm(basis, public_key=public_key, values_range=10)
-    ggh_algo.public_key = public_key
     r = np.array([-1, 1, 1, -1])
     cipher_message = ggh_algo.cipher_message(message, r=r)
     recovered_message = ggh_algo.decipher_message(cipher_message)
@@ -111,6 +110,24 @@ def test_private_key_is_good_basis():
     ggh_algo = GGHAlgorithm(basis, values_range=10)
     delta_b = GGHAlgorithm.compute_delta_basis(ggh_algo.private_key)
     assert 0 < delta_b - 1 < epsilon
+
+
+def test_generating_a_bad_basis():
+    """
+    Performs a specific operation of cipher and decipher.
+    It also checks that the generated public key is a bad basis.
+    """
+    message = [3, -4, 1, 3]
+    basis = np.array([[2, -2, -1, -1], [-3, 1, 3, -4], [1, 0, 2, 3], [-4, 4, 1, -2]]).T
+    ggh_algo = GGHAlgorithm(basis, values_range=10)
+    cipher_message = ggh_algo.cipher_message(message)
+    recovered_message = ggh_algo.decipher_message(cipher_message)
+    delta_private_key = GGHAlgorithm.compute_delta_basis(ggh_algo.private_key)
+    delta_public_key = GGHAlgorithm.compute_delta_basis(ggh_algo.public_key)
+
+    assert recovered_message == message
+    assert delta_private_key < 10
+    assert delta_public_key > 500
 
 
 if __name__ == "__main__":
