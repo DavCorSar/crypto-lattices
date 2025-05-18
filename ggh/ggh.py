@@ -31,7 +31,6 @@ class GGHAlgorithm:
         Ciphers a message using the public key.
         """
         m_array = np.array(m)
-        print("r: ", r)
         if r is None:
             r = np.random.uniform(-self._sigma, self._sigma, size=len(m))
             print("Inside if")
